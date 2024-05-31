@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const raffleResultSchema = new Schema({
+const prizeConfigSchema = new Schema({
   msisdn: {
     type: String,
     required: true,
@@ -13,4 +13,4 @@ const raffleResultSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("RaffleResult", raffleResultSchema);
+module.exports = mongoose.model("PrizeConfig", prizeConfigSchema);

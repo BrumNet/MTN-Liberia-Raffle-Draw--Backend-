@@ -10,14 +10,25 @@ function generateReport(raffleResults, includePrizes = false) {
 }
 
 // Route handler for generating the report
-const generateReportHandler = (req, res) => {
+const generateReportHandler = async (req, res) => {
   const includePrizes = req.query.includePrizes === 'true';
-  const report = generateReport(raffleResults, includePrizes);
-  res.status(200).json({
-    success: true,
-    message: "Report generated successfully",
-    data: report
-  });
+
+  try {
+    const raffleResults = await RaffleResult.find({});
+    const report = generateReport(raffleResults, includePrizes);
+
+    res.status(200).json({
+      success: true,
+      message: "Report generated successfully",
+      data: report
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error generating report",
+      error: error.message
+    });
+  }
 };
 
 module.exports = { generateReportHandler };
