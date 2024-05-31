@@ -1,18 +1,4 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-
-app.use(express.json());
-
-class RaffleResult {
-  constructor(msisdn, prize) {
-    this.msisdn = msisdn;
-    this.prize = prize;
-  }
-}
-function createRaffleResult(msisdn, prize) {
-  return new RaffleResult(msisdn, prize);
-}
+const RaffleResult = require("../models/raffleResultModel");
 
 // Function to generate report
 function generateReport(raffleResults, includePrizes = false) {
@@ -23,8 +9,8 @@ function generateReport(raffleResults, includePrizes = false) {
   });
 }
 
-// API endpoint to fetch the report
-app.get('/api/report', (req, res) => {
+// Route handler for generating the report
+const generateReportHandler = (req, res) => {
   const includePrizes = req.query.includePrizes === 'true';
   const report = generateReport(raffleResults, includePrizes);
   res.status(200).json({
@@ -32,9 +18,6 @@ app.get('/api/report', (req, res) => {
     message: "Report generated successfully",
     data: report
   });
-});
+};
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+module.exports = { generateReportHandler };
